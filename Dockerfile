@@ -1,10 +1,17 @@
-FROM n8nio/n8n:latest-debian
+FROM node:18-bookworm-slim
 
-USER root
-
+# Install ffmpeg
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ffmpeg \
-    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Install n8n
+RUN npm install -g n8n
+
+# Create n8n user
+RUN useradd -m node
 USER node
+
+EXPOSE 5678
+
+CMD ["n8n"]
