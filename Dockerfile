@@ -1,9 +1,26 @@
-FROM n8nio/n8n:latest
+# ---------- Base ----------
+FROM n8nio/n8n:1.86.1
 
 USER root
 
-RUN apt-get update && \
-    apt-get install -y ffmpeg && \
-    rm -rf /var/lib/apt/lists/*
+# ---------- Install media + utility tools ----------
+RUN apk add --no-cache \
+    ffmpeg \
+    bash \
+    tini \
+    curl \
+    git \
+    fontconfig \
+    ttf-dejavu \
+    imagemagick
 
+# ---------- Improve FFmpeg performance ----------
+# (Optional but recommended)
+RUN mkdir -p /tmp/n8n-media
+
+# ---------- Restore non-root user ----------
 USER node
+
+# ---------- Ensure proper init ----------
+ENTRYPOINT ["tini", "--"]
+CMD ["n8n"]
