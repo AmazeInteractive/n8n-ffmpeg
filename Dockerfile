@@ -1,22 +1,8 @@
-# ---------- Base ----------
-FROM n8nio/n8n:1.86.1
+FROM n8nio/n8n:1.121.0
 
 USER root
-
-# ---------- Install media + utility tools ----------
-RUN apk add --no-cache \
-    ffmpeg \
-    bash \
-    tini \
-    curl \
-    git \
-    fontconfig \
-    ttf-dejavu \
-    imagemagick
-
-# ---------- Restore non-root user ----------
+RUN apk add --no-cache ffmpeg bash tini fontconfig ttf-dejavu imagemagick
 USER node
 
 ENTRYPOINT ["tini", "--"]
 CMD ["n8n"]
-
