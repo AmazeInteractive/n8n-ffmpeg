@@ -14,13 +14,8 @@ RUN apk add --no-cache \
     ttf-dejavu \
     imagemagick
 
-# ---------- Improve FFmpeg performance ----------
-# (Optional but recommended)
-RUN mkdir -p /tmp/n8n-media
-
 # ---------- Restore non-root user ----------
 USER node
 
-# ---------- Ensure proper init ----------
 ENTRYPOINT ["tini", "--"]
 CMD ["n8n"]
